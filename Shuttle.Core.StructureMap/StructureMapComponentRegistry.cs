@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Shuttle.Core.Infrastructure;
 using StructureMap;
 
@@ -41,6 +42,18 @@ namespace Shuttle.Core.StructureMap
             catch (Exception ex)
             {
                 throw new TypeRegistrationException(ex.Message, ex);
+            }
+
+            return this;
+        }
+
+        public IComponentRegistry RegisterCollection(Type serviceType, IEnumerable<Type> implementationTypes, Lifestyle lifestyle)
+        {
+            Guard.AgainstNull(implementationTypes, "implementationTypes");
+
+            foreach (var implementationType in implementationTypes)
+            {
+                Register(serviceType, implementationType, lifestyle);
             }
 
             return this;

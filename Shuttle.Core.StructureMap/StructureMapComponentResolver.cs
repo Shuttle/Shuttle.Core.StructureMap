@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Shuttle.Core.Infrastructure;
 using StructureMap;
 
@@ -22,6 +24,20 @@ namespace Shuttle.Core.StructureMap
             try
             {
                 return _container.GetInstance(serviceType);
+            }
+            catch (Exception ex)
+            {
+                throw new TypeResolutionException(ex.Message, ex);
+            }
+        }
+
+        public IEnumerable<object> ResolveAll(Type serviceType)
+        {
+            Guard.AgainstNull(serviceType, "serviceType");
+
+            try
+            {
+                return _container.GetAllInstances(serviceType).Cast<object>();
             }
             catch (Exception ex)
             {
