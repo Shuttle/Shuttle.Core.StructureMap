@@ -1,10 +1,11 @@
-# Shuttle.Core.Castle
+# Shuttle.Core.StructureMap
 
-# WindsorComponentContainer
+``` c#
+var containerBuilder = new Registry();
 
-The `WindsorComponentContainer` implements both the `IComponentRegistry` and `IComponentResolver` interfaces.  
+var registry = new StructureMapComponentRegistry(containerBuilder);
 
-~~~c#
-var container = new WindsorComponentContainer(new WindsorContainer());
-~~~
+// register all components
 
+var resolver = new StructureMapComponentResolver(new Container(containerBuilder));
+```
