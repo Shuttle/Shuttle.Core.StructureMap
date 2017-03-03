@@ -5,7 +5,7 @@ using StructureMap;
 
 namespace Shuttle.Core.StructureMap
 {
-    public class StructureMapComponentRegistry : IComponentRegistry
+    public class StructureMapComponentRegistry : ComponentRegistry
     {
         private readonly IRegistry _registry;
 
@@ -16,10 +16,12 @@ namespace Shuttle.Core.StructureMap
             _registry = registry;
         }
 
-        public IComponentRegistry Register(Type serviceType, Type implementationType, Lifestyle lifestyle)
+        public override IComponentRegistry Register(Type dependencyType, Type implementationType, Lifestyle lifestyle)
         {
-            Guard.AgainstNull(serviceType, "serviceType");
+            Guard.AgainstNull(dependencyType, "dependencyType");
             Guard.AgainstNull(implementationType, "implementationType");
+
+	        base.Register(dependencyType, implementationType, lifestyle);
 
             try
             {
@@ -27,13 +29,13 @@ namespace Shuttle.Core.StructureMap
                 {
                     case Lifestyle.Transient:
                     {
-                        _registry.For(serviceType).Use(implementationType).Transient();
+                        _registry.For(dependencyType).Use(implementationType).Transient();
 
                         break;
                     }
                     default:
                     {
-                        _registry.For(serviceType).Use(implementationType).Singleton();
+                        _registry.For(dependencyType).Use(implementationType).Singleton();
 
                         break;
                     }
@@ -47,26 +49,30 @@ namespace Shuttle.Core.StructureMap
             return this;
         }
 
-        public IComponentRegistry RegisterCollection(Type serviceType, IEnumerable<Type> implementationTypes, Lifestyle lifestyle)
+        public override IComponentRegistry RegisterCollection(Type dependencyType, IEnumerable<Type> implementationTypes, Lifestyle lifestyle)
         {
             Guard.AgainstNull(implementationTypes, "implementationTypes");
 
+	        base.RegisterCollection(dependencyType, implementationTypes, lifestyle);
+
             foreach (var implementationType in implementationTypes)
             {
-                Register(serviceType, implementationType, lifestyle);
+                Register(dependencyType, implementationType, lifestyle);
             }
 
             return this;
         }
 
-        public IComponentRegistry Register(Type serviceType, object instance)
+        public override IComponentRegistry Register(Type dependencyType, object instance)
         {
-            Guard.AgainstNull(serviceType, "serviceType");
+            Guard.AgainstNull(dependencyType, "dependencyType");
             Guard.AgainstNull(instance, "instance");
+
+	        base.Register(dependencyType, instance);
 
             try
             {
-                _registry.For(serviceType).Use(instance);
+                _registry.For(dependencyType).Use(instance);
             }
             catch (Exception ex)
             {
