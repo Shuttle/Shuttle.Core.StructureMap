@@ -57,7 +57,28 @@ namespace Shuttle.Core.StructureMap
 
             foreach (var implementationType in implementationTypes)
             {
-                Register(dependencyType, implementationType, lifestyle);
+				try
+				{
+					switch (lifestyle)
+					{
+						case Lifestyle.Transient:
+							{
+								_registry.For(dependencyType).Use(implementationType).Transient();
+
+								break;
+							}
+						default:
+							{
+								_registry.For(dependencyType).Use(implementationType).Singleton();
+
+								break;
+							}
+					}
+				}
+				catch (Exception ex)
+				{
+					throw new TypeRegistrationException(ex.Message, ex);
+				}
             }
 
             return this;
