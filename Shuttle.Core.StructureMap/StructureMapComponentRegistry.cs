@@ -103,5 +103,10 @@ namespace Shuttle.Core.StructureMap
 
             return this;
         }
+
+        public override IComponentRegistry RegisterGeneric(Type dependencyType, Type implementationType, Lifestyle lifestyle)
+        {
+            return Register(dependencyType, implementationType, lifestyle);
+        }
     }
 }
