@@ -36,7 +36,7 @@ namespace Shuttle.Core.StructureMap
                     }
                     default:
                     {
-                        _registry.For(dependencyType).Use(implementationType).Singleton();
+                        _registry.ForSingletonOf(dependencyType).Use(implementationType).Singleton();
 
                         break;
                     }
@@ -70,7 +70,7 @@ namespace Shuttle.Core.StructureMap
 							}
 						default:
 							{
-								_registry.For(dependencyType).Use(implementationType).Singleton();
+								_registry.ForSingletonOf(dependencyType).Use(implementationType);
 
 								break;
 							}
