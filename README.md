@@ -1,5 +1,9 @@
 # Shuttle.Core.StructureMap
 
+```
+PM> Install-Package Shuttle.Core.StructureMap
+```
+
 ``` c#
 var containerBuilder = new Registry();
 
