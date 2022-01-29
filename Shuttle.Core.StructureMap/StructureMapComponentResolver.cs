@@ -16,6 +16,8 @@ namespace Shuttle.Core.StructureMap
             Guard.AgainstNull(container, "container");
 
             _container = container;
+
+            this.WireComponentResolverDelegate();
         }
 
         public object Resolve(Type serviceType)

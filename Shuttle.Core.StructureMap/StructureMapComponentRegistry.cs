@@ -15,6 +15,8 @@ namespace Shuttle.Core.StructureMap
             Guard.AgainstNull(registry, "registry");
 
             _registry = registry;
+
+            this.AttemptRegisterComponentResolverDelegate();
         }
 
         public override IComponentRegistry Register(Type dependencyType, Type implementationType, Lifestyle lifestyle)
